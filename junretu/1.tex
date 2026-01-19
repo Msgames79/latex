@@ -1,0 +1,35 @@
+\documentclass{jlreq}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\begin{document}
+    \paragraph{命題}
+    \[
+        n!=\sum_{i=0}^{n-1}i\cdot i!+1 \quad (n\in \mathbb{N})
+    \]
+    \paragraph{証明}
+    $n=1$のとき
+    \[
+        1!=1
+    \]
+    \[
+        \sum_{i=0}^{0}i\cdot i!+1=0+1=1
+    \]
+    $n=m$のとき
+    \[
+        m!=\sum_{i=0}^{m-1}i\cdot i!+1
+    \]
+    が成り立つと仮定して
+    \[
+        (m+1)!=\sum_{i=0}^{m}i\cdot i!+1
+    \]
+    を示す。
+    \begin{align*}
+        \sum_{i=0}^{m}i\cdot i!+1&=\sum_{i=0}^{m-1}i\cdot i!+1+m\cdot m! \\
+        &=m!+m\cdot m! \\
+        &=m!(m+1) \\
+        &=(m+1)!
+    \end{align*}
+    \hfill$\Box$
+\end{document}

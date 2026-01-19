@@ -1,0 +1,26 @@
+\documentclass[fleqn]{jlreq}
+\usepackage{noto,mathtools,cases,bm}
+\setlength{\parindent}{0pt}
+\begin{document}
+今更だけどジャンプ加速について\par
+書いてあるものをそのままコピペ\par
+\texttt{Namespace TASMod(), class TASMod, line 589-592}\par
+\texttt{(num10 * num11 / human.mass + vector.y + Physics.gravity.y * Time.fixedDeltaTime) * (1f - human.rigidbodies[0].drag * Time.fixedDeltaTime)}\par
+\texttt{float num9 = Mathf.Pow(Mathf.Clamp(PF.groundManager.Invoke(human)->groudSpeed.y, 0f, 100f), 1.2f);}\par
+\texttt{float num10 = Mathf.Max(0f, (Mathf.Sqrt(1.5f / Physics.gravity.magnitude) + num9 / Physics.gravity.magnitude) * human.weight - momentum.y);}\par
+\texttt{float num11 = PF.groundManager.Invoke(human)->groundObjects.Any((GameObject obj) => PF.grabManager.Invoke(human)->IsGrabbed(obj)) ? 0.75f : 1f;}\par
+数式で書いてみる\par
+\begin{align*}
+    v_y &= \left(\frac{bc}{105} + v_{y0} + g_y \times \frac{1}{60}\right)\left(1 - 0.05 \times \frac{1}{60}\right) \\
+    a &= \begin{cases}
+            0 & \text{if}\ v_y\ \text{of entire rigidbodies}<0 \\
+            (v_y\ \text{of entire rigidbodies})^{1.2} & \text{if}\ 0\leq v_y\ \text{of entire rigidbodies}\leq 100 \\
+            100^{1.2}\approx 251.1886431510 & \text{if}\ 100<v_y\ \text{of entire rigidbodies}
+         \end{cases} \\
+    b &= \max\left(0, \left(\sqrt{\frac{1.5}{|\boldsymbol{g}|}} + \frac{a}{|\boldsymbol{g}|}\right) \times 105 \times (-9.81) - \sum_{i\in\text{Rigidbodies in human}}\left(v_{yi}\times m_i\right)\right) \\
+    c &= \begin{cases}
+            0.75 & \text{if human is on grabbed object}\\
+            1 & \text{otherwise}
+         \end{cases}
+\end{align*}
+\end{document}
