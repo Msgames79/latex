@@ -178,6 +178,8 @@ INPUT c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/cases/cases.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/tools/bm.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/derivative/derivative.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
 INPUT ./main.aux
 OUTPUT main.aux
 INPUT c:/texlive/2025/texmf-dist/tex/latex/graphics/graphicx.sty

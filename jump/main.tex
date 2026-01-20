@@ -1,26 +1,38 @@
 \documentclass[fleqn]{jlreq}
-\usepackage{noto,mathtools,cases,bm}
+\usepackage{noto,mathtools,cases,bm,derivative}
 \setlength{\parindent}{0pt}
+\pagestyle{empty}
 \begin{document}
 今更だけどジャンプ加速について\par
 書いてあるものをそのままコピペ\par
-\texttt{Namespace TASMod(), class TASMod, line 589-592}\par
+\texttt{Namespace TASMod(1.15.15.2), class TASMod, line 589-592}\par
 \texttt{(num10 * num11 / human.mass + vector.y + Physics.gravity.y * Time.fixedDeltaTime) * (1f - human.rigidbodies[0].drag * Time.fixedDeltaTime)}\par
 \texttt{float num9 = Mathf.Pow(Mathf.Clamp(PF.groundManager.Invoke(human)->groudSpeed.y, 0f, 100f), 1.2f);}\par
 \texttt{float num10 = Mathf.Max(0f, (Mathf.Sqrt(1.5f / Physics.gravity.magnitude) + num9 / Physics.gravity.magnitude) * human.weight - momentum.y);}\par
 \texttt{float num11 = PF.groundManager.Invoke(human)->groundObjects.Any((GameObject obj) => PF.grabManager.Invoke(human)->IsGrabbed(obj)) ? 0.75f : 1f;}\par
 数式で書いてみる\par
 \begin{align*}
-    v_y &= \left(\frac{bc}{105} + v_{y0} + g_y \times \frac{1}{60}\right)\left(1 - 0.05 \times \frac{1}{60}\right) \\
-    a &= \begin{cases}
-            0 & \text{if}\ v_y\ \text{of entire rigidbodies}<0 \\
-            (v_y\ \text{of entire rigidbodies})^{1.2} & \text{if}\ 0\leq v_y\ \text{of entire rigidbodies}\leq 100 \\
-            100^{1.2}\approx 251.1886431510 & \text{if}\ 100<v_y\ \text{of entire rigidbodies}
-         \end{cases} \\
-    b &= \max\left(0, \left(\sqrt{\frac{1.5}{|\boldsymbol{g}|}} + \frac{a}{|\boldsymbol{g}|}\right) \times 105 \times (-9.81) - \sum_{i\in\text{Rigidbodies in human}}\left(v_{yi}\times m_i\right)\right) \\
-    c &= \begin{cases}
-            0.75 & \text{if human is on grabbed object}\\
-            1 & \text{otherwise}
-         \end{cases}
+    v_{\mathrm{jump}} &= \left(\frac{n_{10}n_{11}}{m_{H}} + v_{Hy} + g_{y}\adif t\right)\left(1-d_{\mathrm{ball}}\adif t\right)[\mathrm{m\cdot s}^{-1}]\\
+    n_{9} &= \begin{cases}
+        0^{1.2}=0 & \left(v_{Gy} < 0\right) \\
+        {v_{Gy}}^{1.2} & \left(0 \leq v_{Gy} \leq 100\right) \\
+        100^{1.2} \approx 251.1886431510 & \left(100 < v_{Gy}\right) 
+    \end{cases} \\
+    n_{10} &= \operatorname{Max} \left(0, \left(\sqrt{\frac{1.5}{\left|\bm{g}\right|}} + \frac{n_{9}}{\left|\bm{g}\right|}\right)W_{H} - p_{y}\right)[\mathrm{kg\cdot m\cdot s}^{-1}]\\
+    n_{11} &= \begin{cases}
+        0.75[] & \text{Ballと接するRigidBody(groundRigids)に掴んでいるRigidBodyがある場合}\\
+        1[] & \text{ない場合}
+    \end{cases}\\
+    m_{H} &= 104[\mathrm{kg}] \\
+    \bm{p} &\coloneq \text{Humanの各Rigidbodyの速度と質量を掛けてから足し合わせた運動量}[\mathrm{kg\cdot m\cdot s}^{-1}] \\
+    \bm{v}_H &\coloneq \frac{\bm{M}}{m_{H}} \\
+    \bm{g} &= \begin{cases}
+        (0, -9.81, 0) [\mathrm{m\cdot s}^{-2}] & \text{Underwaterとワークショップの一部特殊ステージ以外}\\
+        (0, -5, 0) [\mathrm{m\cdot s}^{-2}] & \text{Underwater}
+    \end{cases} \\
+    \adif t &= \frac{1}{60} \approx 0.0167[\mathrm{s}] \\
+    d_{\mathrm{ball}} &= \text{\texttt{Human.Ball.drag}} = 0.05[\mathrm{s}^{-1}] \\
+    v_{Gy} &\coloneq \text{groundRigidsの速度のうち絶対値が最大のものの}y\text{方向} \\
+    W_{H} &= \text{\texttt{Human.Weight}} = m_{H}g = 104 \times 9.81 = 1020.24[\mathrm{N}]
 \end{align*}
 \end{document}
