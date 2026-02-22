@@ -35,4 +35,18 @@
     v_{Gy} &\coloneq \text{groundRigidsの速度のうち絶対値が最大のものの}y\text{方向} \\
     W_{H} &= \text{\texttt{Human.Weight}} = m_{H}g = 104 \times 9.81 = 1020.24[\mathrm{N}]
 \end{align*}
+定数を代入した場合
+\begin{align*}
+    v_{\mathrm{jump}} &= \frac{1159}{1200}\left(\frac{n_{10}n_{11}}{104} + v_{Hy} - 0.4905\right)[\mathrm{m\cdot s}^{-1}]\\
+    n_{9} &= \begin{cases}
+        0^{1.2}=0 & \left(v_{Gy} < 0\right) \\
+        {v_{Gy}}^{1.2} & \left(0 \leq v_{Gy} \leq 100\right) \\
+        100^{1.2} \approx 251.1886431510 & \left(100 < v_{Gy}\right) 
+    \end{cases} \\
+    n_{10} &= \operatorname{Max} \left(0, \left(\sqrt{\frac{1.5}{9.81}} + \frac{n_{9}}{9.81}\right) - p_{y}\right)1020.24[\mathrm{kg\cdot m\cdot s}^{-1}]\\
+    n_{11} &= \begin{cases}
+        0.75[] & \text{Ballと接するRigidBody(groundRigids)に掴んでいるRigidBodyがある場合}\\
+        1[] & \text{ない場合}
+    \end{cases}\\
+\end{align*}
 \end{document}
