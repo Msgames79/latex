@@ -1,0 +1,74 @@
+%use lualatex
+\documentclass[a4paper,12pt]{jlreq}
+\usepackage{mathtools,derivative}
+\usepackage[default]{fontsetup}
+\usepackage{bm}
+\setlength{\parindent}{0pt}
+\begin{document}
+\fbox{1}
+
+(1)
+\begin{align}
+    \bm{A}\cdot\left(\bm{B}\times\bm{C}\right) & =\begin{pmatrix}A_x\\A_y\\A_z\end{pmatrix}\cdot\begin{pmatrix}B_yC_z-B_zC_y\\B_zC_x-B_xC_z\\B_xC_y-B_yC_x\end{pmatrix}\notag \\
+                                               & =A_x\left(B_yC_x-B_zC_y\right)+A_y\left(B_zC_x-B_xC_z\right)+A_z\left(B_xC_y-B_yC_x\right)\notag                             \\
+                                               & =A_xB_yC_z-A_xB_zC_y+A_yB_zC_x-A_yB_xC_z+A_zB_xC_y-A_zB_yC_x\label{eq:determinant}                                           \\
+                                               & =\begin{vmatrix}A_x&A_y&A_z\\B_x&B_y&B_z\\C_x&C_y&C_z\end{vmatrix}\notag
+\end{align}
+
+行列式の展開式(\ref{eq:determinant})から
+
+\(\bm{B}\)の成分でまとめると
+\begin{align*}
+     & \phantom{{}={}} B_x\left(C_yA_z-C_zA_y\right)+B_y\left(C_zA_x-C_xA_z\right)+B_z\left(C_xA_y-C_yA_x\right)              \\
+     & =\begin{pmatrix}B_x\\B_y\\B_z\end{pmatrix}\cdot\begin{pmatrix}C_yA_z-C_zA_y\\C_zA_x-C_xA_z\\C_xA_y-C_yA_x\end{pmatrix} \\
+     & =\bm{B}\cdot\left(\bm{C}\times\bm{A}\right)
+\end{align*}
+
+\(\bm{C}\)の成分でまとめると
+\begin{align*}
+     & \phantom{{}={}} C_x\left(A_yB_z-A_zB_y\right)+C_y\left(A_zB_x-A_xB_z\right)+C_z\left(A_xB_y-A_yB_x\right)              \\
+     & =\begin{pmatrix}C_x\\C_y\\C_z\end{pmatrix}\cdot\begin{pmatrix}A_yB_z-A_zB_y\\A_zB_x-A_xB_z\\A_xB_y-A_yB_x\end{pmatrix} \\
+     & =\bm{C}\cdot\left(\bm{A}\times\bm{B}\right)
+\end{align*}
+以上から、\(\displaystyle \bm{A}\cdot\left(\bm{B}\times\bm{C}\right)=\bm{B}\cdot\left(\bm{C}\times\bm{A}\right)=\bm{C}\cdot\left(\bm{A}\times\bm{B}\right)=\begin{vmatrix}A_x&A_y&A_z\\B_x&B_y&B_z\\C_x&C_y&C_z\end{vmatrix}\)
+
+(2)
+\begin{align*}
+    \bm{A}\times\left(\bm{B}\times\bm{C}\right) & =\begin{pmatrix}A_x\\A_y\\A_z\end{pmatrix}\times\begin{pmatrix}B_yC_z-B_zC_y\\B_zC_x-B_xC_z\\B_xC_y-B_yC_x\end{pmatrix}                                                                                                                                                                                                  \\
+                                                & =\begin{pmatrix}A_y\left(B_xC_y-B_yC_x\right)-A_z\left(B_zC_x-B_xC_z\right)\\A_z\left(B_yC_z-B_zC_y\right)-A_x\left(B_xC_y-B_yC_x\right)\\A_x\left(B_zC_x-B_xC_z\right)-A_y\left(B_yC_z-B_zC_y\right)\end{pmatrix}                                                                                                       \\
+                                                & =\begin{pmatrix}A_yB_xC_y-A_yB_yC_x-A_zB_zC_x+A_zB_xC_z\\A_zB_yC_z-A_zB_zC_y-A_xB_xC_y+A_xB_yC_x\\A_xB_zC_x-A_xB_xC_z-A_yB_yC_z+A_yC_zB_y\end{pmatrix}                                                                                                                                                                   \\
+                                                & =\begin{pmatrix}B_x\left(A_yC_y+A_zC_z\right)-C_x\left(A_yB_y+A_zB_z\right)\\B_y\left(A_zC_z+A_xC_x\right)-C_y\left(A_zB_z+A_xB_x\right)\\B_z\left(A_xC_x+A_yB_y\right)-C_z\left(A_xB_x+A_yB_y\right)\end{pmatrix}                                                                                                       \\
+                                                & =\begin{pmatrix}B_x\left(A_xC_x+A_yC_y+A_zC_z\right)-A_xB_xC_x-C_x\left(A_xC_x+A_yC_y+A_zC_z\right)+A_xB_xC_x\\B_y\left(A_xC_x+A_yC_y+A_zC_z\right)-A_yB_yC_y-C_y\left(A_xC_x+A_yC_y+A_zC_z\right)+A_yB_yC_y\\B_z\left(A_xC_x+A_yC_y+A_zC_z\right)-A_zB_zC_z-C_z\left(A_xC_x+A_yC_y+A_zC_z\right)+A_zB_zC_z\end{pmatrix} \\
+                                                & =\begin{pmatrix}B_x\left(A_xC_x+A_yC_y+A_zC_z\right)-C_x\left(A_xC_x+A_yC_y+A_zC_z\right)\\B_y\left(A_xC_x+A_yC_y+A_zC_z\right)-C_y\left(A_xC_x+A_yC_y+A_zC_z\right)\\B_z\left(A_xC_x+A_yC_y+A_zC_z\right)-C_z\left(A_xC_x+A_yC_y+A_zC_z\right)\end{pmatrix}                                                             \\
+                                                & =\left(A_xC_x+A_yC_y+A_zC_z\right)\begin{pmatrix}B_x\\B_y\\B_z\end{pmatrix}-\left(A_xB_x+A_yB_y+A_zB_z\right)\begin{pmatrix}C_x\\C_y\\C_z\end{pmatrix}                                                                                                                                                                   \\
+                                                & =\left(\bm{A}\cdot\bm{C}\right)\bm{B}-\left(\bm{A}\cdot\bm{B}\right)\bm{C}
+\end{align*}
+\clearpage
+\fbox{2}
+
+(1)
+
+余弦定理より、\(\left|\bm{r}-\bm{r}'\right|^2=r^2-2\left(\bm{r}\cdot\bm{r}'\right)+r'^2\)が成り立つ。
+\begin{align*}
+    \frac{1}{\left|\bm{r}-\bm{r}'\right|^3} & =\left|\bm{r}-\bm{r}'\right|^{-3}                                                     \\
+                                            & =\left(r^2-2\left(\bm{r}\cdot\bm{r}'\right)+r'^2\right)^{-\frac{3}{2}}                \\
+                                            & =r^{-3}\left(1-2\frac{\bm{r}\cdot\bm{r}'}{r^2}+\frac{r'^2}{r^2}\right)^{-\frac{3}{2}} \\
+    \intertext{ここで、\(r\gg r'\)より、\(\displaystyle\left|\frac{\bm{r}\cdot\bm{r}'}{r^2}\right|=\left|\frac{rr'\cos\theta}{r^2}\right|=\left|\frac{r'}{r}\cos\theta\right|\ll 1\)である。\(r'\)の一次近似により\(r'\)の2次スケールを持つ第3項は無視される。}
+                                            & \approx \frac{1}{r^3}\left(1+3\frac{\bm{r}\cdot\bm{r}'}{r^2}\right)
+\end{align*}
+
+(2)
+
+(1)で求めた近似式を用いて積分式を展開する。
+\begin{align*}
+    \bm{E}\left(\bm{r}\right) & =\frac{1}{4\pi\varepsilon_0}\int_{\Omega}\frac{\bm{r}-\bm{r}'}{\left|\bm{r}-\bm{r}'\right|^3}\rho\left(\bm{r'}\right)\odif{V'}                                                                                                                                                                            \\
+                              & \approx\frac{1}{4\pi\varepsilon_0}\int_{\Omega}\frac{1}{r^3}\left(1+3\frac{\bm{r}\cdot\bm{r}'}{r^2}\right)\left(\bm{r}-\bm{r}'\right)\rho\left(\bm{r'}\right)\odif{V'}                                                                                                                                    \\
+                              & =\frac{1}{4\pi\varepsilon_0}\int_{\Omega}\left(\frac{1}{r^3}+3\frac{\bm{r}\cdot\bm{r}'}{r^5}\right)\left(\bm{r}-\bm{r}'\right)\rho\left(\bm{r'}\right)\odif{V'}                                                                                                                                           \\
+                              & =\frac{1}{4\pi\varepsilon_0}\int_{\Omega}\left(\frac{\bm{r}}{r^3}-\frac{\bm{r}'}{r^3}+3\frac{\bm{r}\cdot\bm{r}'}{r^5}\bm{r}-3\frac{\bm{r}\cdot\bm{r}'}{r^5}\bm{r}'\right)\rho\left(\bm{r'}\right)\odif{V'}                                                                                                \\
+    \intertext{ここでも、\(r'\)の2次スケールを持つ第4項\(\displaystyle -3\frac{\bm{r}\cdot\bm{r}'}{r^5}\bm{r}'\)は無視される。}
+                              & \approx\frac{1}{4\pi\varepsilon_0}\int_{\Omega}\left(\frac{\bm{r}}{r^3}-\frac{\bm{r}'}{r^3}+3\frac{\bm{r}\cdot\bm{r}'}{r^5}\bm{r}\right)\rho\left(\bm{r'}\right)\odif{V'}                                                                                                                                 \\
+                              & =\frac{1}{4\pi\varepsilon_0}\int_{\Omega}\frac{\bm{r}}{r^3}\rho\left(\bm{r'}\right)\odif{V'}-\frac{1}{4\pi\varepsilon_0}\int_{\Omega}\frac{\bm{r}'}{r^3}\rho\left(\bm{r'}\right)\odif{V'}+\frac{1}{4\pi\varepsilon_0}\int_{\Omega}3\frac{\bm{r}\cdot\bm{r}'}{r^5}\bm{r}\rho\left(\bm{r'}\right)\odif{V'}  \\
+                              & =\frac{1}{4\pi\varepsilon_0}\frac{\bm{r}}{r^3}\int_{\Omega}\rho\left(\bm{r'}\right)\odif{V'}-\frac{1}{4\pi\varepsilon_0}\frac{1}{r^3}\int_{\Omega}\rho\left(\bm{r'}\right)\bm{r}'\odif{V'}+\frac{3}{4\pi\varepsilon_0}\frac{1}{r^5}\bm{r}\cdot\int_{\Omega}\rho\left(\bm{r'}\right)\bm{r}'\odif{V'}\bm{r} \\
+                              & =\frac{Q}{4\pi\varepsilon_0}\frac{\bm{r}}{r^3}-\frac{\bm{p}}{4\pi\varepsilon_0r^3}+\frac{3\left(\bm{r}\cdot\bm{p}\right)}{4\pi\varepsilon_0r^5}\bm{r}
+\end{align*}
+\end{document}

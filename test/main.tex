@@ -1,0 +1,91 @@
+\documentclass[lualatex,oneside,notitlepage,paper=a4paper,fontsize=12pt,fleqn]{jlreq}
+\usepackage{mathtools,amssymb,subcaption,tabularray,tikz,graphicx,pdfpages,float,xcolor,mathcomp,siunitx,upgreek,fixdif,derivative}
+\usepackage[default]{fontsetup}
+\usepackage{caption,luatexja-fontspec,bm}
+\pagestyle{empty}
+\setlength{\mathindent}{8bp}
+\setmainfont{Noto Serif}
+\setsansfont{Noto Sans}
+\setmonofont{Noto Sans Mono}
+\setmainjfont{Noto Serif JP}[
+    BoldFont = Noto Serif JP SemiBold
+]
+\setsansjfont{Noto Sans JP}[
+    BoldFont = Noto Sans JP Bold
+]
+\setmainfont{Noto Serif}
+\setsansfont{Noto Sans}
+\setmainjfont{Noto Serif JP}
+\setsansjfont{Noto Sans JP}
+%\setmathfont{NewComputerModernMath-Regular}
+\renewcommand\thesubsection{\arabic{section}.\arabic{subsection}}
+\renewcommand\thesection{\arabic{section}.}
+\renewcommand\theenumi{\arabic{enumi}}
+\renewcommand\labelenumi{\theenumi. \;\;}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=0.6pt] (char) {#1};}}
+\newcommand{\rme}{\symup{e}}
+\newcommand{\parr}{\par\hspace*{-1\zw}}
+\SetTblrInner{rowsep=0pt}
+\DefTblrTemplate{contfoot-text,conthead-text,middlehead,lasthead,capcont}{normal}{}
+\SetTblrTemplate{contfoot-text,conthead-text,middlehead,lasthead,capcont}{normal}
+\DefTblrTemplate{caption-sep}{default}{\quad}
+\SetTblrTemplate{caption-sep}{default}
+\DefTblrTemplate{caption-tag}{default}{表\hspace{0.25em}\thetable}
+\SetTblrTemplate{caption-tag}{default}
+\captionsetup{labelsep=quad}
+\captionsetup[table]{format=hang}
+\ExplSyntaxOn% see https://tex.stackexchange.com/a/630675/113546
+\DefTblrTemplate{caption}{normal}{
+\makebox[\hsize][c]{
+  \parbox{\textwidth}{%
+    \hbox_set:Nn \l__tblr_caption_box{
+        \UseTblrTemplate{caption-tag}{default}
+        \UseTblrTemplate{caption-sep}{default}
+        \UseTblrTemplate{caption-text}{default}
+        }
+    \dim_compare:nNnTF{\box_wd:N \l__tblr_caption_box}>{\hsize}{
+        \UseTblrAlign{caption}
+        \UseTblrIndent{caption}
+        \hbox_set:Nn \l__tblr_caption_left_box{
+            \UseTblrTemplate{caption-tag}{default}
+            \UseTblrTemplate{caption-sep}{default}
+            }
+        \hangindent=\box_wd:N \l__tblr_caption_left_box
+        \hangafter=1
+        \UseTblrHang{caption}
+        \leavevmode
+        \hbox_unpack:N \l__tblr_caption_box
+        \par
+        }{
+        \centering
+        \makebox[\hsize][c]{\box_use:N \l__tblr_caption_box}
+        \par
+        }}
+    }
+  }
+\SetTblrTemplate{caption}{normal}
+\ExplSyntaxOff
+\begin{document}
+ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\par
+A quick brown fox jumps over the lazy dog
+\[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\]
+\[\mathrm{ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz}\]
+\[\mathit{ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz}\]
+\[\mathbb{ABCDEFGHIJKLMOPQRSTUVWXYZ}\]\par
+\textit{ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz} \par
+\texttt{ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz}
+\[e^{ix}=\cos x+i\sin x\]
+\[\left(\sum_{n=0}^{\infty}\frac{1}{n!}\right)^{\sqrt{-64}\left(\sum\limits_{k=0}^{\infty}\dfrac{(-1)^k}{2k+1}\right)}=1\]
+fixdif+derivative
+\[\int_0^{\pi}\sin x \odif{x}=2\]
+\[\odv{x^n}{x}=nx^{n-1}\]
+\[\odv[order=n]{x^n}{x}=n!\]
+\[\odv*{x^n}{x}=nx^{n-1}\]
+\[\odv*[order=n]{x^n}{x}=n!\]
+\[\pdv{x}f(x,y)\]
+\[\odif{z}=\odif{f} (x,y)=\pdv{z}{x}\odif{x}+\pdv{z}{y}\odif{y}=f_x\odif{x}+f_y\odif{y}\]
+\[\odv{y}{x} = \lim_{\adif{x}\to 0}\adv{y}{x} = \lim_{\adif{x}\to 0}\frac{f(x+\adif{x}) - f(x)}{\adif{x}}\]
+\[\int \sin x\odif{x} = -\cos x + C\]
+\[\odif{z} = \pdv{z}{x}\odif{x} + \pdv{z}{y}\odif{y}\]
+\[\iint_D f(x,y)\odif{x,y} = \iint_{\tilde{D}} f(r,\theta) \cdot r\odif{r,\theta}\]
+\end{document}

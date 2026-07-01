@@ -1,12 +1,41 @@
 \documentclass[fleqn,12pt,titlepage]{jlreq}
 \setlength{\mathindent}{0pt}
-\setlength{\parindent}{0pt}
-\usepackage{amsmath,tabularray,hyperref,derivative}
+\usepackage[default]{fontsetup}
+\usepackage{amsmath,tabularray,hyperref,derivative,luatexja-fontspec,enumitem,hyperref}
+\let\OriginalHash\#
+\renewcommand{\#}{\raisebox{0.23ex}{\OriginalHash}}
+\setmainfont{Noto Sans Mono Regular}
+\setmonofont{Noto Sans Mono Regular}
+\newfontfamily\serif{NewComputerModern10-Book}
 \begin{document}
-\title{Achievement\%ガイド}
+\title{Human Fall Flat 実績に関する情報}
 \author{Msgames79}
 \maketitle
-\[
-\int_{0}^{\frac{\pi}{2}}\sin x \odif{x} = 1
-\]
+\tableofcontents
+\section{まえがき}
+この文書はNo Brakes Gamesが制作、Curve Gamesが販売を行うゲームHuman Fall Flatの実績についての情報を集めたものである。この文書は常に正しい情報を保証するものではない。また、情報についてはSteam版をもとに作成している。
+\section{実績の基礎知識}
+実績とは、プレイヤーが起こしたアクションを認めるシステムである。実績の内容(条件)はゲームの制作者が設定し、実績の条件を満たすことを「解除」と呼ぶ。
+Human Fall Flatでは、実績を管理するためにC\#クラスを用意している。
+\subsection{分類}
+\begin{description}
+    \item[General] 条件を満たすことでいつでも解除することができる、一般的な実績。特定のステージでないと解除できないものが多い。
+    \item[Stat-Based] 追跡システムを用いてプレイヤーの行動を記録し、一定条件に達することで解除できる実績。どんな場所でも解除できる。
+\end{description}
+\subsection{実績に関係するC\#クラス}
+\begin{itemize}
+    \item \texttt{StatsAndAchievements} {\serif (}\texttt{インスタンス:} \texttt{DontDestroyOnLoad} / \texttt{Game(Clone)} / \texttt{Achievements}{\serif )}\\
+        21のstaticメソッドと19のstaticフィールドがあり、外部からの操作が簡単にできるようになっている。
+    \item StatsAndAchievements
+    \item StatsAndAchievements
+    \item StatsAndAchievements
+    \item StatsAndAchievements
+    \item StatsAndAchievements
+\end{itemize}
+\subsection{Stat-Based用追跡システム}
+
+\section{実績の解説}
+Stat-Basedは実績リストの途中に挿入されているが、今後の更新で増えることはおそらくなく、特殊な分類に入っているので先に取り上げる。
+\subsection{Stat-Bases}
+\subsection{General}
 \end{document}
