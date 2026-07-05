@@ -1,13 +1,14 @@
 \documentclass[lualatex,fleqn,12pt,titlepage]{jlreq}
 \setlength{\mathindent}{0pt}
 \usepackage[default]{fontsetup}
+\usepackage[haranoaji]{luatexja-preset}
 \usepackage{amsmath,tabularray,derivative,luatexja-fontspec,enumitem,noto,seqsplit,hyperref}
 \DeclareRobustCommand{\mono}[1]{\texttt{\seqsplit{#1}}}
 \begin{document}
 \title{Human Fall Flat 実績に関する情報}
 \author{Msgames79}
 \maketitle
-\tableofcontents
+\tableofcontents\newpage
 \section{まえがき}
 この文書はNo Brakes Gamesが制作、Curve Gamesが販売を行うゲームHuman Fall Flatの実績についての情報を集めたものである。この文書は常に正しい情報を保証するものではない。また、情報についてはSteam版をもとに作成している。
 \section{実績の基礎知識}
@@ -18,12 +19,666 @@ Human Fall Flatでは、実績を管理するためにC\#クラスを用意し�
     \item[General] 条件を満たすことでいつでも解除することができる、一般的な実績。特定のステージでないと解除できないものが多い。
     \item[Stat-Based] 追跡システムを用いてプレイヤーの行動を記録し、一定条件に達することで解除できる実績。どんな場所でも解除できる。
 \end{description}
+\subsection{列挙型\texttt{Achievement}}
+アセンブリ:\mono{Assembly-CSharp.dll}
+
+各実績に対するAchievementIDが書かれている。
 \subsection{実績に関係するC\#クラス}
 \subsubsection{\texttt{StatsAndAchievements}}
-\subsection{Stat-Based用追跡システム}
+アセンブリ:\mono{Assembly-CSharp.dll}
 
+インスタンス:\mono{DontDestroyOnLoad/Game(Clone)/Achievements}
+
+\mono{static}メソッド(代表的なもの)
+\begin{itemize}
+    \item \mono{void\ AddCarry(Human\ human,\ float\ m)}
+    \item \mono{void\ AddClimb(Human\ human,\ float\ m)}
+    \item \mono{void\ AddDrive(float\ m)}
+    \item \mono{void\ AddDumpster(float\ m)}
+    \item \mono{void\ AddShip(float\ m)}
+    \item \mono{void\ AddTravel(Human\ human,\ float\ m)}
+    \item \mono{void\ IncreaseDrownCount(Human\ human)}
+    \item \mono{void\ IncreaseFallCount(Achievement\ achievement,\ float\ amount)}
+    \item \mono{void\ OnNotifyUnlockAchievement(Achievement\ achievement,\ float\ amount)}
+    \item \mono{void\ PassLevel(string,\ Human)}
+    \item \mono{void\ ResetAchievements(string\ currentLevelName,\ Human\ human)}
+    \item \mono{void\ Save(bool\ triggerSave\ =\ true)}
+    \item \mono{void\ UnlockAchievement(Achievement\ achievement,\ bool\ incAchievement\ =\ false,\ int\ localPlayerIndex\ =\ -1)}
+    \item \mono{void\ UnlockAchievementInternal(Achievement\ achievement,\ bool\ incAchievement,\ int\ localPlayerIndex\ =\ -1)}
+\end{itemize}
+
+\mono{static}フィールド
+\begin{itemize}
+    \item \mono{float\ carryM}
+    \item \mono{float\ climbM}
+    \item \mono{float\ driveM}
+    \item \mono{int\ drown}
+    \item \mono{float\ dumpsterM}
+    \item \mono{int\ fall}
+    \item \mono{int\ jump}
+    \item \mono{int\ savedCarryM}
+    \item \mono{int\ savedClimbM}
+    \item \mono{int\ savedDriveM}
+    \item \mono{int\ savedDumpsterM}
+    \item \mono{int\ savedShipM}
+    \item \mono{int\ savedtravelM}
+    \item \mono{float\ shipM}
+    \item \mono{float\ travelM}
+    \item \mono{System.Collections.Generic.List<Achievement>\ unlocked}
+\end{itemize}
+\subsection{実績の解除システム}
+ここでは、ゲーム内で実績を解除する時にどんな処理を行っているかについて書く。ここでは、「段差にご注意！」を例に解説する。
+\begin{enumerate}
+    \item ステージのScene内に実績のためのオブジェクトが生成される。(ここでは\mono{Intro/Level/Achievements/JumpGapAchievement}、また子オブジェクトに\mono{EntryCollider}、\mono{ZoneCollider}、\mono{PassCollider}。親オブジェクトはクラス\mono{JumpGapAchievement}のインスタンスでもある。)
+    \item メソッド\mono{StatsAndAchievements.UnlockAchievement(Achievement.ACH\_INTRO\_JUMP\_GAP,\ false,\ -1)}が呼び出される。
+\end{enumerate}
 \section{実績の解説}
-Stat-Basedは実績リストの途中に挿入されているが、今後の更新で増えることはおそらくなく、特殊な分類なので先に取り上げる。
+Stat-Basedは実績リストの途中に挿入されているが、今後の更新で増えることはおそらくなく、特殊な分類なので先に取り上げる。また、番号は列挙型\mono{Achievement}の順番に基づく。
 \subsection{Stat-Based}
+Stat-Based系の実績は\mono{StatsAndAchievements.UnlockAchievement}を経由しないことが判明した。よって、ここでは解除の条件と各(その実績に関係する)Statの増加方法についてのみ述べる。
+\subsubsection{12.旅行者、13.旅人、14.冒険家}
+\begin{itemize}
+    \item 条件:\ \mono{StatsAndAchievements.travelM}
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
 \subsection{General}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
+\subsubsection{a}
+\begin{itemize}
+    \item a
+\end{itemize}
 \end{document}

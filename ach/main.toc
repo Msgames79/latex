@@ -1,9 +1,0 @@
-\contentsline {section}{\numberline {1}まえがき}{1}{section*.1}%
-\contentsline {section}{\numberline {2}実績の基礎知識}{1}{section*.2}%
-\contentsline {subsection}{\numberline {2.1}分類}{1}{section*.3}%
-\contentsline {subsection}{\numberline {2.2}実績に関係するC\#クラス}{2}{section*.4}%
-\contentsline {subsubsection}{\numberline {2.2.1}\texttt {StatsAndAchievements}}{2}{section*.5}%
-\contentsline {subsection}{\numberline {2.3}Stat-Based用追跡システム}{2}{section*.6}%
-\contentsline {section}{\numberline {3}実績の解説}{2}{section*.7}%
-\contentsline {subsection}{\numberline {3.1}Stat-Based}{2}{section*.8}%
-\contentsline {subsection}{\numberline {3.2}General}{2}{section*.9}%
