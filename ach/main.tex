@@ -86,21 +86,22 @@ Stat-Based系の実績は\mono{StatsAndAchievements.UnlockAchievement}を経由�
         \item \mono{float\ UnityEngine.Time.deltaTime}秒毎に(毎フレーム)\mono{walkStartPos}から現在位置\mono{Vector3\ Human.instance.GameObject.transform.position}の差のY成分を0にし、大きさ\mono{float\ magnitude}を求める。
         \item プレイヤーの\mono{State}が\mono{Walk}から別の状態になったフレームで、\mono{magnitude}が0.5m以上なら\mono{float\ travelM}に加算する。0.5m未満なら何もしない。
         \item \mono{Walk}中に\mono{magnitude}が10を超えた場合、即座に\mono{magnitude}を\mono{travelM}に加算し、\mono{walkStartPos}を現在位置にする。
-        \item \mono{travelM}の百の位が1以上増加した時点で、\mono{trunc(travelM)}を\mono{int\ savedTravelM}に保存する。
+        \item \mono{travelM}の百の位が1以上増加した時点で、\mono{StatsAndAchievements.Save()}を呼び出す。
     \end{enumerate}
-    \item 関連するクラス
+    \item 関連するクラスとメソッド
     \begin{itemize}
         \item \mono{Human}
         \item \mono{StatMonitorHuman}
+        \item \mono{void\ StatsAndAchievements.AddTravel(Human\ human,\ float\ m)}
     \end{itemize}
 \end{itemize}
-\subsubsection{15.まるで雨のようだ}
+\subsubsection{16.まるで雨のようだ}
 \begin{itemize}
-    \item 条件:\ \mono{int\ StatsAndAchievements.fall}が1000に達する。
+    \item 条件:\ \mono{int\ StatsAndAchievements.fall}が100に達する。
     \item \mono{Stat(fall)}の増加方法(原理)
     \begin{enumerate}
         \item クラス\mono{HumanAPI.FallTrigger}をコンポーネントに持ち、\mono{FallTrigger.fallAchievement}が\mono{True}に設定されている有効な死亡判定に\mono{Player(Clone)}の特定部位が入ると、\mono{Game.Fall}が呼び出され、\mono{fall}が1増える。同じフレームで2個以上のパーツが死亡判定に入ったときは、すべてのパーツに対して1増加させる。
-        \item \mono{fall}の値が増えるたびに値を保存する。
+        \item \mono{fall}の値が増えるたびに\mono{StatsAndAchievements.Save()}を呼び出す。
     \end{enumerate}
     \item 死亡判定の\mono{GameObject}におけるLayerの値によって挙動が変化する。
     \begin{itemize}
@@ -108,7 +109,7 @@ Stat-Based系の実績は\mono{StatsAndAchievements.UnlockAchievement}を経由�
         \item \mono{Default}など他のLayerに設定されている場合、親オブジェクトにクラス\mono{Human}を持つコライダー付きの子(\mono{Ball}から見て)オブジェクト全てが反応する。そのため、RTAではこれを利用し、一度に多くの\mono{fall}カウントを増やしている。
     \end{itemize}
     \item \mono{Layer}が\mono{Triggers}以外に設定されている死亡判定(最終更新:Viking)
-    \item \begin{itemize}
+    \begin{itemize}
         \item \mono{Halloween/Level/FallTrigger}
         \item \mono{Ice\_merged/Level/FallTrigger}
         \item \mono{Factory/Level/Net\ Scene\ 6/Conveyor\ Smasher\ Furnaces/Conveyor\ 1/Furnace/Fall\ Trigger}
@@ -150,23 +151,75 @@ Stat-Based系の実績は\mono{StatsAndAchievements.UnlockAchievement}を経由�
     \begin{itemize}
         \item \mono{Game.Fall}
         \item \mono{HumanAPI.FallTrigger}
+        \item \mono{void\ StatsAndAchievements.IncreaseJumpCount(Human\ human)}
     \end{itemize}
 \end{itemize}
-\subsubsection{a}
+\subsubsection{17. トランポリン}
 \begin{itemize}
-    \item a
+    \item 条件:\ \mono{int\ StatsAndAchievements.Jump}が1000に達する。
+    \item \mono{Stat(Jump)}の増加方法(原理)
+    \begin{enumerate}
+        \item プレイヤーの\mono{State}が別の状態から\mono{Jump}になったフレームで\mono{StatsAndAchievements.IncreaseJumpCount(StatMonitorHuman.instance.human)}を呼び出す。
+        \item \mono{StatMonitorHuman.Jump}をインクリメントさせる。
+        \item \mono{Jump}の百の位が1増加した時点で、\mono{StatsAndAchievements.Save()}を呼び出す。
+    \end{enumerate}
+    \item 関連するクラスとメソッド
+    \begin{itemize}
+        \item \mono{Human}
+        \item \mono{StatMonitorHuman}
+        \item \mono{void\ StatsAndAchievements.IncreaseJumpCount(Human\ human)}
+    \end{itemize}
 \end{itemize}
-\subsubsection{a}
+\subsubsection{18. 登山家}
 \begin{itemize}
-    \item a
+    \item 条件:\ \mono{int\ StatsAndAchievements.savedClimbM}が100に達する。
+    \item \mono{Stat(savedClimbM)}の増加方法(原理)
+    \begin{enumerate}
+        \item 次のルールに従って初期位置\mono{Vector3\ StatMonitorHuman.climbStartPos}を決定する。
+        \begin{itemize}
+            \item \mono{Jump}と\mono{Climb}以外の状態から\mono{Climb}になった場合、1f前の座標を設定する。
+            \item \mono{Jump}から\mono{Climb}になった場合、\mono{Jump}になる1f前の座標を設定する。
+            \item \mono{Climb}の状態で現在のy座標が\mono{StatMonitorHuman.climbStartPos.y}より低くなった場合、1f前の座標を設定する。
+        \end{itemize}
+        \item \mono{Climb}から\mono{Jump}、\mono{Idle}、\mono{Walk}のいずれかの状態になった場合のみ\mono{StatMonitorHuman.climbstartpos.y}からの現在のy座標の増分を\mono{StatsAndAchievements.climbM}に加算する。増分が負の時は何もしない。
+        \item \mono{Climb}の十の位が1以上増加した時点で、\mono{StatsAndAchievements.Save()}を呼び出す。
+    \end{enumerate}
+    \item 関連するクラスとメソッド
+    \begin{itemize}
+        \item \mono{Human}
+        \item \mono{StatMonitorHuman}
+        \item \mono{void\ StatsAndAchievements.AddClimb(Human\ human,\ float\ m)}
+    \end{itemize}
 \end{itemize}
-\subsubsection{a}
+\subsubsection{19. ヘビーリフティング}
 \begin{itemize}
-    \item a
+    \item 条件:\ \mono{int\ StatsAndAchievements.savedCarryM}が1000に達する。
+    \item \mono{Stat(savedCarryM)}の増加方法(原理)
+    \begin{enumerate}
+        \item オブジェクトを掴んでから離すまでの移動距離(xzのみ)を\mono{CarryM}に加算する。
+        \item \mono{Climb}の十の位が1以上増加した時点で、\mono{StatsAndAchievements.Save()}を呼び出す。
+    \end{enumerate}
+    \item 関連するクラスとメソッド
+    \begin{itemize}
+        \item \mono{Human}
+        \item \mono{StatMonitorHuman}
+        \item \mono{void\ StatsAndAchievements.AddCarry(Human\ human,\ float\ m)}
+    \end{itemize}
 \end{itemize}
-\subsubsection{a}
+\subsubsection{20. 泳ぎの練習}
 \begin{itemize}
-    \item a
+    \item 条件:\ \mono{int\ StatsAndAchievements.drown}が10に達する。
+    \item \mono{Stat(   drown)}の増加方法(原理)
+    \begin{enumerate}
+        \item オブジェクトを掴んでから離すまでの移動距離(xzのみ)を\mono{CarryM}に加算する。
+        \item \mono{Climb}の十の位が1以上増加した時点で、\mono{StatsAndAchievements.Save()}を呼び出す。
+    \end{enumerate}
+    \item 関連するクラスとメソッド
+    \begin{itemize}
+        \item \mono{Human}
+        \item \mono{HumanHead.Update()}
+        \item \mono{void\ Game.Drown(Human\ human)}
+    \end{itemize}
 \end{itemize}
 \subsubsection{a}
 \begin{itemize}
