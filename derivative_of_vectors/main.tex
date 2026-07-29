@@ -1,0 +1,200 @@
+\documentclass[12pt,oneside]{jlreq}
+\pagestyle{empty}
+\usepackage[default]{fontsetup}
+\usepackage{derivative,fixdif}
+\DeclareMathOperator{\atantwo}{atan2}
+\newcommand{\bm}[1]{\symbfit{#1}}
+\setlength{\paperwidth}{597pt}
+\setlength{\paperheight}{845pt}
+\setlength{\parindent}{0pt}
+\setlength{\hoffset}{-1in}
+\setlength{\voffset}{-1in}
+\setlength{\oddsidemargin}{0pt}
+\setlength{\topmargin}{0pt}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{0pt}
+\setlength{\textheight}{\paperheight}
+\setlength{\textwidth}{\paperwidth}
+\begin{document}
+値域が通常と異なる関数
+\begin{equation*}
+    \left\{
+        \begin{gathered}
+            \arctan(x) : \mathbb{R}\mapsto[0,\pi)\\
+            \atantwo(y,x) : \mathbb{R}^2\setminus\{(0,0)\}\mapsto[0,2\pi)
+        \end{gathered}
+    \right.
+\end{equation*}
+\section{2次元直交座標}
+\begin{gather*}
+    \left\{
+        \begin{aligned}
+            \bm{e}_x&=\left(1,0\right)\\
+            \bm{e}_y&=\left(0,1\right)
+        \end{aligned}
+    \right.
+\end{gather*}
+\(\bm{e}_x,\bm{e}_y\)は\(t\)に対して不変(定数のように扱われる)\\
+\begin{align*}
+\bm{r}(x(t),y(t))&=x(t)\bm{e}_x+y(t)\bm{e}_{y}\\
+\odv{\bm{r}(x(t),y(t))}{t}&=\odv{x(t)}{t}\bm{e}_x+\odv{y(t)}{t}\bm{e}_{y}\\
+\odv[2]{\bm{r}(x(t),y(t))}{t}&=\odv[2]{x(t)}{t}\bm{e}_x+\odv[2]{y(t)}{t}\bm{e}_{y}
+\end{align*}
+\section{基底ベクトルの変換}
+直交座標からの変数変換
+\[
+(x_1(t),\dots,x_n(t))\to(x_1((y_1(t),\dots,y_n(t))),\dots,x_n((y_1(t),\dots,y_n(t))))
+\]
+により\[\bm{r}(y_1(t),\dots,y_n(t))=\displaystyle\sum_{k=1}^{n}x_k(y_1(t),\dots,y_n(t))\bm{e}_{x_k}\]として表現可能な場合、各変数方向の基底ベクトルは
+\begin{align*}
+    \bm{e}_{y_k}(y_1(t),\dots,y_n(t))&=\frac{\pdif{y_k}\bm{r}(y_1(t),\dots,y_n(t))}{\left|\pdif{y_k}\bm{r}(y_1(t),\dots,y_n(t))\right|}\\
+    &=\frac{\pdif{y_k}\bm{r}(y_1(t),\dots,y_n(t))}{\sqrt{\displaystyle\sum_{i=1}^{n}\pdif{y_k}{x_i}^2(y_1(t),\dots,y_n(t))}}
+\end{align*}
+で表される。
+\section{2次元極座標}
+基本の変換
+\begin{gather*}
+    \left\{
+        \begin{aligned}
+            x(r(t),\theta(t))&=r(t)\cos\theta(t)\\
+            y(r(t),\theta(t))&=r(t)\sin\theta(t)
+        \end{aligned}
+    \right.\\
+    \left\{
+        \begin{aligned}
+            r(x(t),y(t))&=\sqrt{x^2(t)+y^2(t)}\\
+            \theta(x(t),y(t))&=\atantwo\left(y(t),x(t)\right)
+        \end{aligned}
+    \right.
+\end{gather*}
+2次元極座標では
+\[
+\bm{r}(r(t),\theta(t))=x(r(t),\theta(t))\bm{e}_x+y(r(t),\theta(t))\bm{e}_{y}=r(t)\cos\theta(t)\bm{e}_x+r(t)\sin\theta(t)\bm{e}_y
+\]
+の関係を用いると、
+\begin{align*}
+    \bm{e}_{r}(r(t),\theta(t))&=\cos\theta(t)\bm{e}_x+\sin\theta(t)\bm{e}_y\\
+    \bm{e}_{\theta}(r(t),\theta(t))&=-\sin\theta(t)\bm{e}_x+\cos\theta(t)\bm{e}_y
+\end{align*}
+として表される。
+次に、各基底ベクトルの時間微分を求める。多変数関数の微分
+\[
+\odv{f(x_1,\dots,x_n)}{t}=\sum_{i=1}^{n}\pdv{f(x_1,\dots,x_n)}{x_i}\odv{x_i}{t}
+\]
+を用いると、\(r(t)\)での偏微分は0になり、
+\begin{align*}
+    \odv{\bm{e}_{r}(r(t),\theta(t))}{t}&=-\sin\theta(t)\odv{\theta(t)}{t}\bm{e}_x+\cos\theta(t)\odv{\theta(t)}{t}\bm{e}_y\\
+    &=\odv{\theta(t)}{t}\bm{e}_{\theta}(r(t),\theta(t))\\
+    \odv{\bm{e}_{\theta}(r(t),\theta(t))}{t}&=-\cos\theta(t)\odv{\theta(t)}{t}\bm{e}_x-\sin\theta(t)\odv{\theta(t)}{t}\bm{e}_y\\
+    &=-\odv{\theta(t)}{t}\bm{e}_{r}(r(t),\theta(t))
+\end{align*}
+が得られる。この結果を用いて、位置ベクトルの微分を求めることができる。
+
+(積の微分を用いる)
+\begin{align*}
+    \bm{r}(r(t),\theta(t))&=r(t)\bm{e}_r(r(t),\theta(t))\\
+    \odv{\bm{r}(r(t),\theta(t))}{t}&=\odv{r(t)}{t}\bm{e}_r(r(t),\theta(t))+r(t)\odv{\bm{e}_r(r(t),\theta(t))}{t}\\
+    &=\odv{r(t)}{t}\bm{e}_r(r(t),\theta(t))+r(t)\odv{\theta(t)}{t}\bm{e}_{\theta}(r(t),\theta(t))\\
+    \odv[2]{\bm{r}(r(t),\theta(t))}{t}&=\odv*{\left(\odv{r(t)}{t}\bm{e}_r(r(t),\theta(t))+r(t)\odv{\theta(t)}{t}\bm{e}_{\theta}(r(t),\theta(t))\right)}{t}\\
+    &=\odv[2]{r(t)}{t}\bm{e}_r(r(t),\theta(t))+\odv{r(t)}{t}\odv{\bm{e}_r(r(t),\theta(t))}{t}\\
+    &+\odv{r(t)}{t}\odv{\theta(t)}{t}\bm{e}_{\theta}(r(t),\theta(t))+r(t)\odv[2]{\theta(t)}{t}\bm{e}_{\theta}(r(t),\theta(t))+r(t)\odv{\theta(t)}{t}\odv{\bm{e}_{\theta}(r(t),\theta(t))}{t}\\
+    &=\odv[2]{r(t)}{t}\bm{e}_r(r(t),\theta(t))+\odv{r(t)}{t}\odv{\theta(t)}{t}\bm{e}_{\theta}(r(t),\theta(t))\\
+    &+\odv{r(t)}{t}\odv{\theta(t)}{t}\bm{e}_{\theta}(r(t),\theta(t))+r(t)\odv[2]{\theta(t)}{t}\bm{e}_{\theta}(r(t),\theta(t))-r(t)\left(\odv{\theta(t)}{t}\right)^2\bm{e}_{r}(r(t),\theta(t))\\
+    &=\left(\odv[2]{r(t)}{t}-r(t)\left(\odv{\theta(t)}{t}\right)^2\right)\bm{e}_r(r(t),\theta(t))\\
+    &+\left(2\odv{r(t)}{t}\odv{\theta(t)}{t}+r(t)\odv[2]{\theta(t)}{t}\right)\bm{e}_{\theta}(r(t),\theta(t))
+\end{align*}
+\section{3次元直交座標}
+\begin{gather*}
+    \left\{
+        \begin{aligned}
+            \bm{e}_x&=\left(1,0,0\right)\\
+            \bm{e}_y&=\left(0,1,0\right)\\
+            \bm{e}_z&=\left(0,0,1\right)
+        \end{aligned}
+    \right.
+\end{gather*}
+\(\bm{e}_x,\bm{e}_y,\bm{e}_z\)は\(t\)に対して不変(定数のように扱われる)\\
+\begin{align*}
+\bm{r}(x(t),y(t),z(t))&=x(t)\bm{e}_x+y(t)\bm{e}_{y}+z(t)\bm{e}_z\\
+\odv{\bm{r}(x(t),y(t),z(t))}{t}&=\odv{x(t)}{t}\bm{e}_x+\odv{y(t)}{t}\bm{e}_{y}+\odv{z(t)}{t}\bm{e}_{z}\\
+\odv[2]{\bm{r}(x(t),y(t),z(t))}{t}&=\odv[2]{x(t)}{t}\bm{e}_x+\odv[2]{y(t)}{t}\bm{e}_{y}+\odv[2]{z(t)}{t}\bm{e}_{z}
+\end{align*}
+\section{3次元極座標(右手系)}
+基本の変換
+\begin{gather*}
+    \left\{
+        \begin{aligned}
+            x(r(t),\theta(t),\varphi(t))&=r(t)\sin\theta(t)\cos\varphi(t)\\
+            y(r(t),\theta(t),\varphi(t))&=r(t)\sin\theta(t)\sin\varphi(t)\\
+            z(r(t),\theta(t),\varphi(t))&=r(t)\cos\theta(t)
+        \end{aligned}
+    \right.\\
+    \left\{
+        \begin{aligned}
+            r(x(t),y(t),z(t))&=\sqrt{x^2(t)+y^2(t)+z^2(t)}\\
+            \theta(x(t),y(t),z(t))&=\arctan\frac{\sqrt{x^2(t)+y^2(t)}}{z(t)}\\
+            \varphi(x(t),y(t),z(t))&=\atantwo\left(y(t),x(t)\right)
+        \end{aligned}
+    \right.
+\end{gather*}
+やることは基本一緒なので、結果だけ載せる。
+\[
+\bm{r}(r(t),\theta(t),\varphi(t))=r(t)\sin\theta(t)\cos\varphi(t)\bm{e}_x+r(t)\sin\theta(t)\sin\varphi(t)\bm{e}_y+r(t)\cos\theta(t)\bm{e}_z
+\]
+\begin{align*}
+    \bm{e}_{r}(r(t),\theta(t),\varphi(t))&=\sin\theta(t)\cos\varphi(t)\bm{e}_x+\sin\theta(t)\sin\varphi(t)\bm{e}_y+\cos\theta(t)\bm{e}_z\\
+    \bm{e}_{\theta}(r(t),\theta(t),\varphi(t))&=\cos\theta(t)\cos\varphi(t)\bm{e}_x+\cos\theta(t)\sin\varphi(t)\bm{e}_y-\sin\theta(t)\bm{e}_z\\
+    \bm{e}_{\varphi}(r(t),\theta(t),\varphi(t))&=-\sin\varphi(t)\bm{e}_x+\cos\varphi(t)\bm{e}_y
+\end{align*}
+\begin{align*}
+    \odv{\bm{e}_{r}(r(t),\theta(t),\varphi(t))}{t}&=\odv{\theta(t)}{t}\bm{e}_{\theta}(r(t),\theta(t),\varphi(t))+\sin\theta(t)\odv{\varphi(t)}{t}\bm{e}_{\varphi}(r(t),\theta(t),\varphi(t))\\
+    \odv{\bm{e}_{\theta}(r(t),\theta(t),\varphi(t))}{t}&=-\odv{\theta(t)}{t}\bm{e}_{r}(r(t),\theta(t),\varphi(t))+\cos\theta(t)\odv{\varphi(t)}{t}\bm{e}_{\varphi}(r(t),\theta(t),\varphi(t))\\
+    \odv{\bm{e}_{\varphi}(r(t),\theta(t),\varphi(t))}{t}&=-\sin\theta(t)\odv{\varphi(t)}{t}\bm{e}_{r}(r(t),\theta(t),\varphi(t))-\cos\theta(t)\odv{\varphi(t)}{t}\bm{e}_{\theta}(r(t),\theta(t),\varphi(t))
+\end{align*}
+\begin{align*}
+    \bm{r}(r(t),\theta(t),\varphi(t))&=r(t)\bm{e}_r(r(t),\theta(t),\varphi(t))\\
+    \odv{\bm{r}(r(t),\theta(t),\varphi(t))}{t}&=\odv{r(t)}{t}\bm{e}_{r}(r(t),\theta(t),\varphi(t))+r(t)\odv{\theta(t)}{t}\bm{e}_{\theta}(r(t),\theta(t),\varphi(t))+r(t)\sin\theta(t)\odv{\varphi(t)}{t}\bm{e}_{\varphi}(r(t),\theta(t),\varphi(t))\\
+    \odv[2]{\bm{r}(r(t),\theta(t),\varphi(t))}{t}&=\left(\odv[2]{r(t)}{t}-r(t)\left(\odv{\theta(t)}{t}\right)^2-r(t)\sin^2\theta(t)\left(\odv{\varphi(t)}{t}\right)^2\right)\bm{e}_r(r(t),\theta(t),\varphi(t))\\
+    &+\left(2\odv{r(t)}{t}\odv{\theta(t)}{t}+r(t)\odv[2]{\theta(t)}{t}-r(t)\sin\theta(t)\cos\theta(t)\left(\odv{\varphi(t)}{t}\right)^2\right)\bm{e}_{\theta}(r(t),\theta(t),\varphi(t))\\
+    &+\left(2\odv{r(t)}{t}\sin\theta(t)\odv{\varphi(t)}{t}+2r(t)\cos\theta(t)\odv{\theta(t)}{t}\odv{\varphi(t)}{t}+r(t)\sin\theta(t)\odv[2]{\varphi(t)}{t}\right)\bm{e}_{\varphi}(r(t),\theta(t),\varphi(t))
+\end{align*}
+\section{円筒座標(右手系)}
+基本の変換
+\begin{gather*}
+    \left\{
+        \begin{aligned}
+            x(\rho(t),\varphi(t),z(t))&=\rho(t)\cos\varphi(t)\\
+            y(\rho(t),\varphi(t),z(t))&=\rho(t)\sin\varphi(t)\\
+            z(\rho(t),\varphi(t),z(t))&=z(t)
+        \end{aligned}
+    \right.\\
+    \left\{
+        \begin{aligned}
+            \rho(x(t),y(t),z(t))&=\sqrt{x^2(t)+y^2(t)}\\
+            \varphi(x(t),y(t),z(t))&=\atantwo(y(t),x(t))\\
+            z(x(t),y(t),z(t))&=z(t)
+        \end{aligned}
+    \right.
+\end{gather*}
+円筒座標は2次元極座標と直交座標の和による合成である。
+\[
+\bm{r}(\rho(t),\varphi(t),z(t))=\rho(t)\cos\varphi(t)\bm{e}_x+\rho(t)\sin\varphi(t)\bm{e}_y+z(t)\bm{e}_z
+\]
+\begin{align*}
+    \bm{e}_{\rho}(\rho(t),\varphi(t),z(t))&=\cos\varphi(t)\bm{e}_x+\sin\varphi(t)\bm{e}_y\\
+    \bm{e}_{\varphi}(\rho(t),\varphi(t),z(t))&=-\sin\varphi(t)\bm{e}_x+\cos\varphi(t)\bm{e}_y\\
+    \bm{e}_{z}(\rho(t),\varphi(t),z(t))&=\bm{e}_z
+\end{align*}
+\begin{align*}
+    \odv{\bm{e}_{\rho}(\rho(t),\varphi(t),z(t))}{t}&=\odv{\varphi(t)}{t}\bm{e}_{\varphi}(r(t),\theta(t),\varphi(t))\\
+    \odv{\bm{e}_{\varphi}(\rho(t),\varphi(t),z(t))}{t}&=-\odv{\varphi(t)}{t}\bm{e}_{\rho}(r(t),\theta(t),\varphi(t))\\
+    \odv{\bm{e}_{z}(\rho(t),\varphi(t),z(t))}{t}&=\bm{0}
+\end{align*}
+\begin{align*}
+    \bm{r}(\rho(t),\varphi(t),z(t))&=\rho(t)\bm{e}_{\rho}(r(t),\theta(t),\varphi(t))+z(t)\bm{e}_z\\
+    \odv{\bm{r}(\rho(t),\varphi(t),z(t))}{t}&=\odv{\rho(t)}{t}\bm{e}_{\rho}(\rho(t),\varphi(t),z(t))+\rho(t)\odv{\varphi(t)}{t}\bm{e}_{\varphi}(\rho(t),\varphi(t),z(t))+\odv{z(t)}{t}\bm{e}_z\\
+    \odv[2]{\bm{r}(\rho(t),\varphi(t),z(t))}{t}&=\left(\odv[2]{\rho(t)}{t}-\rho(t)\left(\odv{\varphi(t)}{t}\right)^2\right)\bm{e}_{\rho}(\rho(t),\varphi(t),z(t))\\
+    &+\left(2\odv{\rho(t)}{t}+\odv{\varphi(t)}{t}+\rho(t)\odv[2]{\varphi(t)}{t}\right)\bm{e}_{\varphi}(\rho(t),\varphi(t),z(t))\\
+    &+\odv[2]{z(t)}{t}\bm{e}_z
+\end{align*}
+\end{document}
